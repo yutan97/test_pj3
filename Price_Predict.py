@@ -367,7 +367,7 @@ elif choice == 'Time Series':
                 end_date = datetime(2018, 3, 25)
                 lim_price = data_predict[start_date:end_date]
                 days = abs(date1-date2)
-                weeks = days/7
+                weeks = round(days/7)
 
         # Train model
                 r_test = round(len(data_predict)*0.2)
