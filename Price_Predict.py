@@ -17,6 +17,7 @@ register_matplotlib_converters()
 from time import time
 import statistics
 from pmdarima import auto_arima
+from statsmodels.tsa.arima_model import ARIMA
 from sklearn.metrics import  mean_squared_error
 from prophet import Prophet
 from prophet.plot import add_changepoints_to_plot
