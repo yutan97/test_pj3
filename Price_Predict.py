@@ -377,8 +377,8 @@ elif choice == 'Time Series':
                 model_arima = sm.tsa.arima.ARIMA(train_data, order=(2, 1, 1), seasonal_order=(2, 1, 0, 52))
                 model_fit = model_arima.fit()
         # Predict
-                predictions_future = model_fit.predict(n_periods = weeks + 1)
-                predictions_future = pd.DataFrame(predictions_future, index=pd.date_range(start= date1, periods = weeks + 1, freq = 'W'), columns = ['Prediction_future'])
+                predictions_future = model_fit.predict(n_periods = 144)
+                predictions_future = pd.DataFrame(predictions_future, index=pd.date_range(start= date1, periods = 144, freq = 'W'), columns = ['Prediction_future'])
                 st.write("Predict result of {}:".format(region))
 
                 fig = plt.figure(figsize=(12,10))
