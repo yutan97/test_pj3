@@ -12,7 +12,7 @@ import warnings
 warnings.filterwarnings('ignore')
 from pandas.plotting import register_matplotlib_converters
 from statsmodels.tsa.stattools import acf, pacf
-from statsmodels.tsa.arima.model import ARIMA
+import statsmodels.api as sm
 register_matplotlib_converters()
 from time import time
 import statistics
@@ -374,7 +374,7 @@ elif choice == 'Time Series':
                 r_train = len(data_predict) - r_test
                 train_data = lim_price.iloc[:r_train]
                 test_data = lim_price.iloc[r_train:]
-                model_arima = ARIMA(train_data, order=(2, 1, 1), scoring_args={}, seasonal_order=(2, 1, 0, 52), suppress_warnings=True, with_intercept=False)
+                model_arima = sm.tsa.arima.ARIMA(train_data, order=(2, 1, 1), scoring_args={}, seasonal_order=(2, 1, 0, 52), suppress_warnings=True, with_intercept=False)
                 model_fit = model_arima.fit()
         # Predict
                 predictions_future = model_fit.predict(n_periods = weeks + 1)
