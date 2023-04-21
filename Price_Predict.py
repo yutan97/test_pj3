@@ -353,43 +353,39 @@ elif choice == 'Time Series':
             region = st.selectbox("Select area you want to predict:",data['region'].unique())
             type = st.selectbox("Choose type of hass:",data['type'].unique())
             submited = st.form_submit_button('Sumited')
-        if submited:
-            if date2 <= date1 :
-                st.write('Please choose suitable date')
-            else :
         # Prepair data
-                dateparse = lambda x: pd.to_datetime(x, format='%Y-%m', errors = 'coerce')
-                data_arm = pd.read_csv("avocado.csv", parse_dates=['Date'], index_col='Date', date_parser=dateparse)
-                data_predict = data_arm.AveragePrice[(data_arm.type == type) & (data_arm.region == region)].sort_index()
-                start_date = datetime(2015, 1, 4)
-                end_date = datetime(2018, 3, 25)
-                lim_price = data_predict[start_date:end_date]
+            dateparse = lambda x: pd.to_datetime(x, format='%Y-%m', errors = 'coerce')
+            data_arm = pd.read_csv("avocado.csv", parse_dates=['Date'], index_col='Date', date_parser=dateparse)
+            data_predict = data_arm.AveragePrice[(data_arm.type == type) & (data_arm.region == region)].sort_index()
+            start_date = datetime(2015, 1, 4)
+            end_date = datetime(2018, 3, 25)
+            lim_price = data_predict[start_date:end_date]
 
         # Train model
-                r_test = round(len(data_predict)*0.2)
-                r_train = len(data_predict) - r_test
-                train_data = lim_price.iloc[:r_train]
-                test_data = lim_price.iloc[r_train:]
-                model_arima = sm.tsa.arima.ARIMA(train_data, order=(2, 1, 1), seasonal_order=(2, 1, 0, 52))
-                model_fit = model_arima.fit()
+            r_test = round(len(data_predict)*0.2)
+            r_train = len(data_predict) - r_test
+            train_data = lim_price.iloc[:r_train]
+            test_data = lim_price.iloc[r_train:]
+            model_arima = sm.tsa.arima.ARIMA(train_data, order=(2, 1, 1), seasonal_order=(2, 1, 0, 52))
+            model_fit = model_arima.fit()
         # Predict
-                predictions_future = model_fit.predict(n_periods = 144)
-                predictions_future = pd.DataFrame(predictions_future, index=pd.date_range(start= date1, periods = 144, freq = 'W'), columns = ['Prediction_future'])
-                st.write("Predict result of {}:".format(region))
+            predictions_future = model_fit.predict(n_periods = 144)
+            predictions_future = pd.DataFrame(predictions_future, index=pd.date_range(start= date1, periods = 144, freq = 'W'), columns = ['Prediction_future'])
+            st.write("Predict result of {}:".format(region))
 
-                fig = plt.figure(figsize=(12,10))
-                plt.plot(lim_price, label='Acutal')
-                plt.plot(predictions_future, label='Future forecast', color='blue')
-                plt.xticks(rotation='vertical')
-                plt.legend()
-                plt.show()
-                st.write(fig)
+            fig = plt.figure(figsize=(12,10))
+            plt.plot(lim_price, label='Acutal')
+            plt.plot(predictions_future, label='Future forecast', color='blue')
+            plt.xticks(rotation='vertical')
+            plt.legend()
+            plt.show()
+            st.write(fig)
 
-                if st.download_button(label="Download data as CSV",
-                              data=predictions_future.to_csv().encode('utf-8'),
-                              file_name='Price_predict.csv',
-                              mime='text/csv'):
-                    st.write('Thanks for downloading!')
+            if st.download_button(label="Download data as CSV",
+                          data=predictions_future.to_csv().encode('utf-8'),
+                          file_name='Price_predict.csv',
+                          mime='text/csv'):
+                st.write('Thanks for downloading!')
     elif choice3 == 'Model FbProphet':
         with st.form('My form'):
             min_date = datetime(2018,1,1)
