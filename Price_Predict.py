@@ -176,12 +176,14 @@ in_discrete = discrete
 
 
 #GUI
-menu = ["Business Objective", "Regression", "Time Series","Choose Invest Area"]
-choice = st.sidebar.selectbox('Menu', menu)
 with st.sidebar:
     logo = Image.open('logo.jpg')
     logo = logo.resize((400,400))
     st.image(logo, width = 100)
+    
+menu = ["Business Objective", "Regression", "Time Series","Choose Invest Area"]
+choice = st.sidebar.selectbox('Menu', menu)
+
 if choice == "Business Objective":
 
     choice1 = st.selectbox('Sub Menu',['Overall and introduction','Explore Data Analysis'])
@@ -358,7 +360,7 @@ elif choice == 'Time Series':
             date2 = st.date_input("Choose date you want to predict to:",min_value = upper_date)
             submited = st.form_submit_button('Sumited')
         if submited:
-            if date2 <= date1 :
+            if (date2 <= date1) | (date1 <= date2 <= date1 + 6) :
                 st.write('Please choose suitable date')
             else :
         # Prepair data
