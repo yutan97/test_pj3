@@ -352,8 +352,6 @@ elif choice == 'Time Series':
             upper_date = datetime(2018,6,1)
             region = st.selectbox("Select area you want to predict:",data['region'].unique())
             type = st.selectbox("Choose type of hass:",data['type'].unique())
-            date1 = st.date_input("Choose date you want to start predict:" , min_value = min_date)
-            date2 = st.date_input("Choose date you want to predict to:",min_value = upper_date)
             submited = st.form_submit_button('Sumited')
         if submited:
             if date2 <= date1 :
@@ -366,8 +364,6 @@ elif choice == 'Time Series':
                 start_date = datetime(2015, 1, 4)
                 end_date = datetime(2018, 3, 25)
                 lim_price = data_predict[start_date:end_date]
-                days = abs(date1-date2)
-                weeks = days
 
         # Train model
                 r_test = round(len(data_predict)*0.2)
