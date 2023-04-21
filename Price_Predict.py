@@ -372,12 +372,12 @@ elif choice == 'Time Series':
                 predictions_future = model_fit.predict(n_periods = 144)
                 predictions_future = pd.DataFrame(predictions_future, index=pd.date_range(start= '2018-03-25', periods = 144, freq = 'W'), columns = ['Prediction_future'])
 
-                plt.figure(figsize=(12,10))
-                plt.plot(lim_price, label='Acutal')
-                plt.plot(predictions_future, label='Future forecast', color='blue')
-                plt.xticks(rotation='vertical')
-                plt.legend()
-                plt.show()
+                fig = plt.figure(figsize=(12,10))
+                fig.plot(lim_price, label='Acutal')
+                fig.plot(predictions_future, label='Future forecast', color='blue')
+                fig.xticks(rotation='vertical')
+                fig.legend()
+                st.write(fig)
                 
     elif choice3 == 'Model FbProphet':
         with st.form('My form'):
