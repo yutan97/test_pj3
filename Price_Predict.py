@@ -298,7 +298,7 @@ elif choice == 'Regression':
             predict = predict_price(v4225, v4770, v4046,  vLB , vXLB , vSB  , region, year, type_, Month, svr,encode, rb4046, rb4225, rb4770, rbLB, rbSB, rbXLB, rbTTB, rbTTV)
             st.write('Predict price of hass is:',round(predict[0],5))
 elif choice == 'Time Series':
-    choice3 = st.selectbox('Sub Menu',['Explore Data Analysis','Model Arima','Model FbProphet'])
+    choice3 = st.selectbox('Sub Menu',['Explore Data Analysis','Model FbProphet'])
     if choice3 == 'Explore Data Analysis':
 
         data['Date'] = data['Date'].astype('datetime64[ns]')
@@ -343,41 +343,6 @@ elif choice == 'Time Series':
         st.subheader("b.Data conventional test")
         fig = seasonal_decompose(data_conventional, model='additive').plot()
         st.write(fig)
-
-
-
-    elif choice3 == 'Model Arima':
-        with st.form('My form'):
-            min_date = datetime(2018,1,1)
-            upper_date = datetime(2018,6,1)
-            region = st.selectbox("Select area you want to predict:",data['region'].unique())
-            type = st.selectbox("Choose type of hass:",data['type'].unique())
-            if st.form_submit_button('Sumited'):
-        # Prepair data
-                dateparse = lambda x: pd.to_datetime(x, format='%Y-%m', errors = 'coerce')
-                data_arm = pd.read_csv("avocado.csv", parse_dates=['Date'], index_col='Date', date_parser=dateparse)
-                data_predict = data_arm.AveragePrice[(data_arm.type == type) & (data_arm.region == region)].sort_index()
-                start_date = datetime(2015, 1, 4)
-                end_date = datetime(2018, 3, 25)
-                lim_price = data_predict[start_date:end_date]
-
-        # Train model
-                r_test = round(len(data_predict)*0.2)
-                r_train = len(data_predict) - r_test
-                train_data = lim_price.iloc[:r_train]
-                test_data = lim_price.iloc[r_train:]
-                model_arima = sm.tsa.arima.ARIMA(train_data, order=(2, 1, 1), seasonal_order=(2, 1, 0, 52))
-                model_fit = model_arima.fit()
-        # Predict
-                predictions_future = model_fit.predict(n_periods = 144)
-                predictions_future = pd.DataFrame(predictions_future, index=pd.date_range(start= '2018-03-25', periods = 144, freq = 'W'), columns = ['Prediction_future'])
-
-                fig = plt.figure(figsize=(12,10))
-                fig.plot(lim_price, label='Acutal')
-                fig.plot(predictions_future, label='Future forecast', color='blue')
-                fig.xticks(rotation='vertical')
-                fig.legend()
-                st.write(fig)
                 
     elif choice3 == 'Model FbProphet':
         with st.form('My form'):
