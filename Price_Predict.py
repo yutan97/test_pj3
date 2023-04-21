@@ -371,21 +371,14 @@ elif choice == 'Time Series':
         # Predict
                 predictions_future = model_fit.predict(n_periods = 144)
                 predictions_future = pd.DataFrame(predictions_future, index=pd.date_range(start= '2018-03-25', periods = 144, freq = 'W'), columns = ['Prediction_future'])
-                st.write("Predict result of {}:".format(region))
 
-                fig = plt.figure(figsize=(12,10))
+                plt.figure(figsize=(12,10))
                 plt.plot(lim_price, label='Acutal')
                 plt.plot(predictions_future, label='Future forecast', color='blue')
                 plt.xticks(rotation='vertical')
                 plt.legend()
                 plt.show()
-                st.write(fig)
-
-                if st.download_button(label="Download data as CSV",
-                              data=predictions_future.to_csv().encode('utf-8'),
-                              file_name='Price_predict.csv',
-                              mime='text/csv'):
-                    st.write('Thanks for downloading!')
+                
     elif choice3 == 'Model FbProphet':
         with st.form('My form'):
             min_date = datetime(2018,1,1)
