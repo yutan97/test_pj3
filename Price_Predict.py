@@ -359,7 +359,7 @@ elif choice == 'Time Series':
             date1 = st.date_input("Choose date you want to start predict:" , min_value = min_date)
             date2 = st.date_input("Choose date you want to predict to:",min_value = upper_date)
             submited = st.form_submit_button('Sumited')
-            st.write(date2-date1)
+            st.write(str(date2-date1))
         if submited:
             if date2 <= date1:
                 st.write('Please choose suitable date')
