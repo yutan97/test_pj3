@@ -370,7 +370,7 @@ elif choice == 'Time Series':
                 model_fit = model_arima.fit()
         # Predict
                 predictions_future = model_fit.predict(n_periods = 144)
-                predictions_future = pd.DataFrame(predictions_future, index=pd.date_range(start= date1, periods = 144, freq = 'W'), columns = ['Prediction_future'])
+                predictions_future = pd.DataFrame(predictions_future, index=pd.date_range(start= '2018-03-25', periods = 144, freq = 'W'), columns = ['Prediction_future'])
                 st.write("Predict result of {}:".format(region))
 
                 fig = plt.figure(figsize=(12,10))
